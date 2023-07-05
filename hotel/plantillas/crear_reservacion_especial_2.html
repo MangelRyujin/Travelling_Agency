@@ -1,0 +1,25 @@
+{% extends 'base.html' %} 
+{% load static %}
+
+
+{% block contenido %}
+<section>
+    <div class="container-fluid booking-area">
+        <h1><div><span>Muchas Gracias</span> por escogernos</div></h1>
+        
+{% if messages %}
+
+    {% for message in messages%}
+        <script>
+            swal( '{{message}}' )
+        </script>
+    {% endfor%}
+
+{% endif %}
+        <div class="text-center">
+            <a  class=" main-btn text-capitalize  rounded-pill border-3 shadow main-btn rounded-2 px-lg-3 text-orange text-center" href="{% url 'hotel:index' %}" >Aceptar</a>
+        </div>
+        </div>
+    
+</section>
+{% endblock %}

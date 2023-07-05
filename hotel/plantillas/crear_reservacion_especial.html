@@ -1,0 +1,100 @@
+{% extends 'base.html' %} 
+{% load static %}
+
+
+{% block contenido %}
+<section>   
+    <div class="container-fluid text-start booking-area">
+        <h1><div><span>Su</span> Reservación</div></h1>  
+    
+        {% if oferta %}
+        {% for item in oferta %}
+            <h3 class="text-dark text-center"><span class="tenemos">Ha escogido la habitación </span><span> {{item.nombre}} </span> </h3>
+        {% endfor %}
+        
+        {% endif %}
+            {% for oferta_esp in oferta_especial%}
+            <h3 class="text-dark text-center"><span class="tenemos">Usted está realizando la reservación en la oferta especial </span><span> {{oferta_esp.nombre}} </span> </h3>
+            {% if oferta_esp.Faltan == 0 %}
+            <h3 class="text-dark text-center"><span class="tenemos">El registro está completo, no puede reservar</span> </h3>
+            {% else %}
+            <h3 class="text-dark text-center"><span class="tenemos">La capacidad de personas restantes para completar el registro es de </span><span> {{oferta_esp.Faltan}} </span> </h3>
+            {% endif %}
+            {% endfor %}
+            
+            
+                
+    </div>
+    {% for message in messages%}
+        <script>
+            swal( '{{message}}' )
+        </script>
+    {% endfor%}
+
+</section>
+
+{% for oferta_esp in oferta_especial%}
+            
+            {% if oferta_esp.Faltan > 0 %}
+            <section>
+                <div class="container booking-area ">
+                    <form method="post" class="form ">
+                        <div class="cant">
+                            {{ form.nombre_solicitante}}
+                        </div>
+                        <div class="cant">
+                            {{ form.apellido1_solicitante}}
+                        </div>
+                        <div class="cant">
+                            {{ form.apellido2_solicitante}}
+                        </div>
+                        <div class="cant">
+                            {{ form.carnet}}
+                        </div>
+                        <div class="cant">
+                            {{ form.email}}
+                        </div>
+                        <div class="cant">
+                            {{ form.telefono}}
+                        </div>
+                        <div class="cant">
+                            {{ form.cantidad_habitaciones}}
+                        </div>
+                        <div class="cant">
+                            {{ form.adultos}}
+                        </div>
+                        <div class="cant">
+                            {{ form.ninnos}}
+                        </div>
+                        <div class="cant">
+                            {{form.oferta_especial}}
+                        </div>
+             
+                        <br>
+                        <input class="main-btn rounded-2 px-lg-3 text-orange" type="submit" value="Reservar">   
+                        
+                        {% csrf_token %}  
+                    </form> 
+                </div>
+            </section>
+            {% endif %}
+            {% endfor %}
+
+
+<!-- <section>
+    <div class="container booking-area ">
+        <form method="post" class="form" >
+           {{form.as_p}}
+            
+                <button type="submit" class="main-btn rounded-2 px-lg-3 text-orange">Agregar a Reservación</button>
+            
+            {% csrf_token %}  
+        </form> 
+    </div>
+</section> -->
+
+
+
+
+
+{% endblock %}

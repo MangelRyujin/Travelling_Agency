@@ -1,0 +1,104 @@
+{% extends 'base.html' %} 
+{% load static %}
+
+
+
+{% block contenido %}
+
+
+<h1><div class="text-center respuestas"> <span class="tenemos">Reservación</span>  ECOTUR</div></h1>
+
+<div class="text-center">
+    {% if messages %}
+
+    {% for message in messages%}
+        <script>
+            swal( '{{message}}' )
+        </script>
+    {% endfor%}
+
+     {% endif %} 
+</div>
+
+
+<section>
+<div class="row text-right"> 
+
+
+
+    {% with total_items=carro|length %} 
+        {% if total_items > 0 %}
+        <div class="row">
+            
+                <h3><div class="  text-center tenemos"> <span>La reservacion tiene:</span>  {{ total_items }} Persona{{ total_items|pluralize }}</div></h3>     
+            
+        </div> 
+        <div class="row container-fluid">
+            {% for item in carro %}        
+                {% with oferta=item.oferta %}
+                    <div class="col-lg-4 mb-3 mb-lg-0">
+                            
+                        <div class="card text-center" >
+                            <div class="card-body text-dark " style="margin-top: -4px;padding-bottom: 8px;margin-bottom: 8px;padding-top: 0px;">
+                                <div class="row cant">
+                                    <p><div class="text-center respuestas"> <span class="tenemos">Nombre de la oferta: </span>  {{ oferta.nombre }}</div></p>
+                                </div>
+                                <div class="row cant">
+                                    <p><div class="text-center respuestas"> <span class="tenemos">Cantidad de habitaciones: </span>{{ item.cantidad_habitaciones }}</div></p>
+                                </div>
+                                <div class="row cant">
+                                    <p><div class="text-center respuestas"> <span class="tenemos">Cantidad de adultos: </span>  {{ item.adultos }}</div></p>
+                                </div>
+                                <div class="row cant">
+                                    <p><div class="text-center respuestas"> <span class="tenemos">Cantidad de niños: </span>  {{ item.ninnos }}</div></p>  
+                                </div>
+                                <div class="row cant">
+                                    <p><div class="text-center respuestas"> <span class="tenemos">Cantidad de personas: </span>  {{ item.total }}</div></p>
+                                </div>
+                                
+
+                                <div class="row cant">
+                                    <p><div class="text-center respuestas"> <span class="tenemos">Precio: </span>  ${{ item.precio }} CUP</div></p>
+                                </div>
+                                <div class="row">
+                                    <form action="{% url 'carro_remove' oferta.id %}" method="post">
+                                        <button class="main-btn rounded-2 px-lg-3 text-orange"> Remover </button>                
+                                        {% csrf_token %}              
+                                    </form> 
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endwith %}      
+            {% endfor %}
+        </div>
+        
+        {% else %}
+            <h3 class="text-center">  Su reservacion está vacía. </h3>    
+        {% endif %}  
+    {% endwith %} 
+    <div class="row cant text-center">
+        <h3><div class="  text-center respuestas"> <span class="tenemos">Monto Total:</span>  ${{ carro.get_total_precio }} CUP <span class="tenemos">por noche</span></div></h3>
+    </div> 
+        <div class="row cant text-center">
+            {% if carro %}
+            <div class="col-lg-4 mb-2 mb-lg-0 center">
+                <a type="submit" class="main-btn rounded-2 px-lg-3 text-orange" href="/">Continuar Reservando</a>
+            </div>
+            <div class="col-lg-4 mb-2 mb-lg-0 center">
+                <a type="submit" class="main-btn rounded-2 px-lg-3 text-orange" href="{% url 'carro_limpiar' %}">Limpiar Todo</a>
+            </div>
+            
+            <div class="col-lg-4 mb-2 mb-lg-0 center">
+                <a href="{% url 'reservacion' %}"  class=" main-btn rounded-2 px-lg-3 text-orange">Chequear</a> 
+            </div>
+            {% endif %}
+        </div>
+        
+        
+          
+</div>
+
+</section>
+
+{% endblock %}

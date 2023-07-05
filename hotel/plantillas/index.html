@@ -1,0 +1,568 @@
+{% extends 'base.html' %} 
+{% load static %}
+
+
+{% block contenido %}
+
+<section class="text-center text-dark">
+    <div class="container-fluid text-center text-dark">
+        {% if oferta_especial %}
+        <div id="ofertas-1" class="row mb-5">
+            <div class="col-md-10 col-xl-10 text-center mx-auto">
+                <h1><div><span>Oferta</span> especial</div></h1>
+            </div>
+        </div>
+        
+        <div id="oferta" class="row gy-4 row-cols-1 row-cols-md-3 row-cols-xl-3 text-center text-dark">
+
+            {% if hotel_especial %}
+            
+            
+                {% for hotel in hotel_especial %}
+                <div class="col"></div>
+                <div class="col">
+                    
+                    <div class="card" id="oferta_especial" >
+                        {% if hotel.imagen %}
+                        <img class="card-img-top w-100 d-block fit-cover" style="height: 300px;" src="{{ hotel.imagen.url }}" width="383" height="200" />
+                        {% endif %}
+                        <div class="card-body text-dark p-4" style="margin-top: -4px;padding-bottom: 8px;margin-bottom: 8px;padding-top: 0px;">
+                            <h4 class="card-title">Cadena {{hotel.cadena}}</h4>
+                            <h4 class="card-title">Hotel {{hotel.nombre}}</h4>
+                            <div class="row">
+                                <div class="col" >
+                                {% for e in hotel.estrellas %}
+                                
+                                <i class="fas fa-star star" style="font-size: 32px;"></i>
+                                
+                                {% endfor %}
+                                </div>
+                            </div>
+                            <p class="lead  text-center card-text">Ubicado en {{hotel.ubicacion}}</p>
+                            <p class="lead text-center card-text">Polo {{hotel.polo}}</p>
+                            
+                            <div>
+                                {% for o in oferta_especial%}
+                                    <p class="lead  text-center card-text">Reserva desde {{o.fecha_inicial}} hasta {{o.fecha_final}}</p>
+                                {% endfor %}
+                            </div>
+                            
+                            <a  class=" main-btn text-capitalize  rounded-pill border-3 shadow main-btn rounded-2 px-lg-3 text-orange" href="{% url 'hotel_oferta_especial' hotel.id %}" >Ver Más</a>
+                                
+                            
+                            <div></div>
+                        </div>
+                    </div>
+                    <div class="col"></div>
+                </div>
+                {% endfor %}
+                {% endif %}
+        {% else %}
+    
+        {% endif %}
+        
+        
+        
+            
+            
+        </div>
+        
+        </div>
+        
+</section>
+
+<section class="text-center text-dark">
+    <div class="container-fluid text-center text-dark">
+        {% if pasadia %}
+        <div id="ofertas-1" class="row mb-5">
+            <div class="col-md-10 col-xl-10 text-center mx-auto">
+                <h1><div><span>Oferta</span> pasadia</div></h1>
+            </div>
+        </div>
+        
+        <div id="oferta" class="row gy-4 row-cols-1 row-cols-md-3 row-cols-xl-3 text-center text-dark">
+
+            {% if pasadia %}
+            
+            
+                {% for p in pasadia %}
+                <div class="col"></div>
+                <div class="col">
+                    
+                    <div class="card" id="pasadia" >
+                        {% if p.imagen %}
+                        <img class="card-img-top w-100 d-block fit-cover" style="height: 300px;" src="{{ p.imagen.url }}" width="383" height="200" />
+                        {% endif %}
+                        <div class="card-body text-dark p-4" style="margin-top: -4px;padding-bottom: 8px;margin-bottom: 8px;padding-top: 0px;">
+                            <h4 class="card-title ">{{p.nombre}}</h4>
+                            <div class="respuestas"><h5 class="card-title cant tenemos">Plan </h5>{{p.plan}}</div>
+                            <div class="respuestas"><h5 class="card-title cant tenemos">Fecha: </h5>{{p.fecha}}</div>
+                            <div class="respuestas"><h5 class="card-title cant tenemos">Precio por adulto: </h5>{{p.precio_adulto}}</div>
+                            <div class="respuestas"><h5 class="card-title cant tenemos">Precio por niño: </h5> {{p.precio_ninno}}</div>
+                            <div class="respuestas"><h5 class="card-title cant tenemos">Capacidad máxima: </h5>{{p.total_de_personas}}</div>
+                            <div class="respuestas"><h5 class="card-title cant tenemos">Capacidad restante: </h5>{{p.Faltan}}</div>
+                            {% if p.Faltan > 0%}
+                            <a  class=" main-btn text-capitalize  rounded-pill border-3 shadow main-btn rounded-2 px-lg-3 text-orange" href="{% url 'pasadia' p.id %}" >Ver Más</a>
+                            {% else %}
+                            <div class="respuestas"><h5 class="card-title cant tenemos">Capacidad ha sido completada </h5></div>
+                            {% endif %}    
+                            
+                            <div></div>
+                        </div>
+                    </div>
+                    <div class="col"></div>
+                </div>
+                {% endfor %}
+                {% endif %}
+        {% else %}
+    
+        {% endif %}
+        
+        
+        
+            
+            
+        </div>
+        
+        </div>
+        
+</section>
+<br>
+
+<div class="container booking-area">
+    <form class="row" action=" {% url 'hotel:index' %}" method="POST">{% csrf_token %}
+        <div class="row">
+            <div class="col-lg-3 mb-3 mb-lg-0">
+                <div class='form-group'>
+                    {{ form.nombre}}
+                </div>
+            </div> 
+            <div class="col-lg-3 mb-3 mb-lg-0">
+                {{ form.cadena }}
+            </div> 
+        <div class="col-lg mb-3 mb-lg-0">
+            {{ form.polo }}    
+        </div>
+        <div class="col-lg mb-3 mb-lg-0">
+            {{ form.categoria }}           
+        </div>
+    </div>
+        <div class="row cant">
+
+            <div class="col-lg-3 mb-3 mb-lg-0 text-star  form-switch ">
+                {{ form.transporte}}<label>Transporte</label>
+            </div>
+            <div class="col-lg-3 mb-3 mb-lg-0 ]">
+                {{ form.ubicacion}}
+            </div>
+            <div class="col-lg-6 mb-3 mb-lg-0 text-end ">
+                <button type="submit" class="main-btn text-capitalize  rounded-pill border-3 shadow main-btn rounded-2 px-lg-3 text-orange">Buscar</button>
+            </div>
+            
+
+        </div>
+    </form>
+</div>
+
+
+<section class="text-center text-dark">
+    <div class="container-fluid text-center text-dark">
+        
+        <div id="ofertas-1" class="row mb-5">
+            <div class="col-md-10 col-xl-10 text-center mx-auto">
+                <h1><div><span>Creamos</span> aventuras</div></h1>
+            </div>
+        </div>
+        {% if hoteles %}
+            <div class="row justify-content-center">
+                <div class="col-md-auto">
+                    <h3><div class="respuestas"><span class="tenemos">Hoteles</span> Disponibles</div></h3>
+                </div>
+            </div>
+            {% else %}
+            <div class="row justify-content-center">
+                <div class="col-md-auto">
+                    <h3><div class="respuestas"><span class="tenemos">No hay</span> hoteles disponibles</div></h3>
+                </div>
+            </div>
+            {% endif %}
+        
+        
+        <div id="oferta" class="row gy-4 row-cols-1 row-cols-md-2 row-cols-xl-3 text-center text-dark">
+
+        {% if hoteles %}
+        
+        
+            {% for hotel in page_obj %}
+            <div class="col">
+                
+                <div class="card" id="hoteles" >
+                    {% if hotel.imagen %}
+                    <img class="card-img-top w-100 d-block fit-cover" style="height: 300px;" src="{{ hotel.imagen.url }}" width="383" height="200" />
+                    {% endif %}
+                    <div class="card-body text-dark p-4" style="margin-top: -4px;padding-bottom: 8px;margin-bottom: 8px;padding-top: 0px;">
+                        <h4 class="card-title">Cadena {{hotel.cadena}}</h4>
+                        <h4 class="card-title">Hotel {{hotel.nombre}}</h4>
+                        <div class="row">
+                            <div class="col" >
+                            {% for e in hotel.estrellas %}
+                            
+                            <i class="fas fa-star star" style="font-size: 32px;"></i>
+                            
+                            {% endfor %}
+                            </div>
+                        </div>
+                        <p class="lead  text-center card-text">Ubicado en {{hotel.ubicacion}}</p>
+                        <p class="lead text-center card-text">Polo {{hotel.polo}}</p>
+                        {% if hotel.transporte %}
+                            <p class="lead text-center card-text">Contiene transporte con un precio de: ${{hotel.precio_transporte}} CUP </p>
+                        {%else%}
+                            <p class="lead text-center card-text">Este hotel no contiene transporte</p>
+                        {% endif %}
+                        
+                        
+                        <a  class=" main-btn text-capitalize  rounded-pill border-3 shadow main-btn rounded-2 px-lg-3 text-orange" href="{% url 'hotel_oferta' hotel.id %}" >Ver Más</a>
+                            
+                        
+                        <div></div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+            {% endif %}
+            
+            
+        </div>
+        {% if page_obj.paginator.num_pages > 1 %}
+        <div class="font-monospace fs-1 text-center border-4 d-xl-flex justify-content-xl-center align-items-xl-center" style="padding-bottom: 0px;padding-top: 26px;">
+            <nav class="text-center d-flex d-sm-flex justify-content-center justify-content-sm-center">
+                <ul class="pagination pagination-sm">
+                    <li class="page-item "><a class="page-link pag"  href="?page=1"><span>Inicial</span></a></li>
+                    {% if page_obj.has_previous and page_obj.previous_page_number != 1 %}
+                    <li class="page-item"><a class="page-link pag" href="?page={{ page_obj.previous_page_number}}">{{page_obj.previous_page_number}}</a></li>
+                    {% endif %}
+                    {% if page_obj.previous_page_number >= 1 and page_obj.next_page_number <= 6 %}
+                    <li class="page-item active"><a class="page-link" href="#">{{ page_obj.number }}</a></li>
+                    {% endif %}
+                    {% if page_obj.has_next and page_obj.next_page_number != page_obj.paginator.num_pages %}
+                    <li class="page-item"><a class="page-link pag" href="?page={{ page_obj.next_page_number }}">{{ page_obj.next_page_number}}</a></li>
+                    {% endif %}
+                    <li class="page-item"><a class="page-link pag"  href="?page={{ page_obj.paginator.num_pages }}"><span >Final</span></a></li>
+                </ul>
+            </nav>
+        </div>
+        
+        {% endif %}
+        
+        </div>
+        
+</section>
+<!-- Descargar section -->
+<section class="text-center text-dark" id="catalogo">
+    <div class="container-fluid text-center text-dark">
+        <div id="ofertas-1" class="row mb-5">
+            <div class="col-md-8 col-xl-10 text-center mx-auto">
+                <h3><div class="respuestas"><span class="tenemos">Nuestro</span> catálogo</div></h3>
+                <div class="col text-center text-lg-start"><p>Aquí le brindamos las ofertas actualizadas que brindamos. Para descargar el catálogo de click en el siguiente enlace<strong> <a class="text-blue" href="static/descargar/catalogo.docx">Descargar catálogo</a></strong></p></div>
+            </div>
+        </div>         
+    </div> 
+</section>
+
+
+<!-- Descargar section exit -->
+<!-- About section -->
+<section id="about" class="about_wrapper">
+    <div class="container">
+        <div class="row flex-lg-row flex-column-reverse ">
+            <div class="col text-center text-lg-start">
+                <h3 class="text-center">Bienvenido a <span>ECOTUR, Agencia Cubana de Viajes</span></h3>
+                <p>La Agencia de Viajes Ecotur S.A. fue creada el 13 de Agosto del 1996 como una necesidad de la Empresa Nacional para la Protección de la Flora y la Fauna de contar con una estructura comercial que promoviera y comercializara sus productos turísticos, interconectando este con los clientes, tanto agencias de viajes extranjeras, como cubanas, turoperadoras extranjeros y turistas libres que arriben al país.</p>
+                <p>La Agencia de Viajes Ecotur S.A. tiene por objeto dirigir, promover, hacer publicidad y llevar a cabo el negocio de Agencia de Viajes, desarrollando sus actividades en la mediación entre los viajeros y aquellas personas  jurídicas autorizadas a prestar  servicios turísticos.</p>
+                
+                <a href="#" class="main-btn mt-4">Explorar</a>
+            </div>
+        </div>
+
+        <div class="row flex-lg-row flex-column-reverse py-5">
+            <div class="col-lg-6 mb-4 mb-lg-0 ps-lg-4 text-center">
+                <img src="{% static 'images/about-img.png'%}" class="img-fluid" alt="About Us">
+            </div>
+            <div class="col ps-lg-4 text-center">
+                <img src="{% static 'images/modalidades.png'%}" class="img-fluid" alt="About Us">
+            </div>
+
+        </div>
+    </div>
+</section>
+<!-- About section exit -->
+<section class="text-center" id="preguntas">
+    <div class="text-center">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h3><div class="respuestas"><span class="tenemos">Preguntas</span> frecuentes</div></h3>
+                    
+                </div>
+            </div>
+            
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="alert  text-start text-bg-light border rounded border-3 border-secondary shadow" role="alert"><span><strong class="tenemos">Preguntas</strong><br></span></div>
+                </div>
+                <div class="col-md-6">
+                    <div class="alert  text-start text-bg-light border rounded border-3 border-secondary shadow" role="alert"><span><strong class="respuestas">Respuestas</strong><br></span></div>
+                </div>
+            </div>
+            <div class="row">
+                
+                <div class="col-md-6">
+                    <div class="alert  text-start text-bg-light border rounded border-3 border-secondary shadow" role="alert"><span><strong class="tenemos">1- ¿ ?</strong><br></span></div>
+                </div>
+                <div class="col-md-6">
+                    <div class="alert  text-start text-bg-light border rounded border-3 border-secondary shadow" role="alert"><span class="respuestas">Aqui va la respuesta a la pregunta 1<br></span></div>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="alert text-start text-bg-light border rounded border-3 border-secondary shadow" role="alert"><span><strong class="tenemos">2- ¿ ?</strong><br></span></div>
+                </div>
+                <div class="col-md-6">
+                    <div class="alert text-start text-bg-light border rounded border-3 border-secondary shadow" role="alert"><span class="respuestas">aqui va la respuesta a la pregunta 2<br></span></div>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="alert  text-start text-bg-light border rounded border-3 border-secondary shadow" role="alert"><span><strong class="tenemos">3- ¿ ?</strong><br></span></div>
+                </div>
+                <div class="col-md-6">
+                    <div class="alert  text-start text-bg-light border rounded border-3 border-secondary shadow" role="alert"><span class="respuestas">aqui va la respuesta a la pregunta 3<br></span></div>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="alert  text-start text-bg-light border rounded border-3 border-secondary shadow" role="alert"><span><strong class="tenemos">4- ¿ ?</strong><br></span></div>
+                </div>
+                <div class="col-md-6">
+                    <div class="alert  text-start text-bg-light border rounded border-3 border-secondary shadow" role="alert"><span class="respuestas">aqui va la respuesta a la pregunta 4<br></span></div>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="alert  text-start text-bg-light border rounded border-3 border-secondary shadow" role="alert"><span><strong class="tenemos">5- ¿ ?</strong><br></span></div>
+                </div>
+                <div class="col-md-6">
+                    <div class="alert  text-start text-bg-light border rounded border-3 border-secondary shadow" role="alert"><span class="respuestas">aqui va la respuesta a la pregunta 5<br></span></div>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="alert  text-start text-bg-light border rounded border-3 border-secondary shadow" role="alert"><span><strong class="tenemos">6- ¿ ?</strong><br></span></div>
+                </div>
+                <div class="col-md-6">
+                    <div class="alert  text-start text-bg-light border rounded border-3 border-secondary shadow" role="alert"><span class="respuestas">aqui va la respuesta a la pregunta 6<br></span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Rooms section -->
+
+
+
+
+
+<!-- Rooms Section Exit -->
+
+<!-- Services section -->
+<section id="services" class="services_wrapper">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12 section-title text-center mb-5">
+                <h3><div class="respuestas"><span class="tenemos">Nuestro</span> impresionantes servicios</div></h3>
+            </div>
+        </div>
+        <div class="row align-items-center service-item-wrap">
+            <div class="col-lg-7 p-lg-0">
+                <!--Service Area Start-->
+                <div class="tab-content" id="myTabContent">
+                    <div class="tab-pane fade active show" id="crear" role="tabpanel">
+                        <img src="{% static 'images/services/3.png'%}" alt="">
+                    </div>
+                    <div class="tab-pane fade" id="restaurent" role="tabpanel">
+                        <img src="{% static 'images/services/2.png'%}" alt="">
+                    </div>
+                    <div class="tab-pane fade" id="atencion" role="tabpanel">
+                        <img src="{% static 'images/services/1.png'%}" alt="">
+                    </div>
+                    
+                </div>
+                <!--Service Area End-->
+            </div>
+            <div class="col-lg-5 position-relative">
+                <!--Service Tab Menu Area Start-->
+                <div class="service-menu-area">
+                    <ul class="nav">
+                        <li>
+                            <a data-bs-toggle="tab" href="#crear" class="active">
+                                <span class="service-icon">
+                                    <img src="{% static 'images/services/service-icon1.webp'%}" alt="">
+                                </span>
+                                <h5>Creamos experiencias</h5>
+                                <p><span>Agenica ECOTUR </span> está a la dispocición de brindarles mejores ofertas para que 
+                                su viaje sea una experiencia inolvidable.</p>
+                            </a>
+                        </li>
+                        <li>
+                            <a data-bs-toggle="tab" href="#restaurent">
+                                <span class="service-icon">
+                                    <img src="{% static 'images/services/service-icon2.webp'%}" alt="">
+                                </span>
+                                <h5>Transporte</h5>
+                                <p><span>Transporte</span> le ayudaremos a que llegue a su destino de una manera fácil y cómoda.</p>
+                            </a>
+                        </li>
+                        <li>
+                            <a data-bs-toggle="tab" href="#atencion">
+                                <span class="service-icon">
+                                    <img src="{% static 'images/services/service-icon2.webp'%}" alt="">
+                                </span>
+                                <h5>Sala de atención</h5>
+                                <p><span>Sala de atención</span> en donde responderemos todas sus interrogantes con el 
+                                mejor servicio de atención.</p>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <!--Service Tab Menu Area End-->
+         
+</section>
+<!-- Services section Exit -->
+
+<!-- Team section -->
+<section id="team" class="team_wrapper">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12 section-title text-center mb-5">
+                <h3><div class="respuestas"><span class="tenemos">Nuestro</span> personal especial</div></h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-3 col-md-6 mb-4">
+                <div class="card p-0 rounded-3">
+                    <img src="{% static 'images/team/team2.png'%}" class="img-fluid rounded-3" />
+                    <div class="team-info">
+                        <h5>Yoley Santana</h5>
+                        <p>Promotora de ventas</p>
+                        <!-- <ul class="social-network">
+                            <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
+                            <li><a href="#"><i class="fab fa-twitter"></i></a></li>
+                            <li><a href="#"><i class="fab fa-google-plus-g"></i></a></li>
+                            <li><a href="#"><i class="fab fa-vimeo-v"></i></a></li>
+                        </ul> -->
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-4">
+                <div class="card p-0 rounded-3">
+                    <img src="{% static 'images/team/team1.png'%}" class="img-fluid rounded-3" />
+                    <div class="team-info">
+                        <h5>Arian Ojeda Moya</h5>
+                        <p>Especialista comercial</p>
+                        <!-- <ul class="social-network">
+                            <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
+                            <li><a href="#"><i class="fab fa-twitter"></i></a></li>
+                            <li><a href="#"><i class="fab fa-google-plus-g"></i></a></li>
+                            <li><a href="#"><i class="fab fa-vimeo-v"></i></a></li>
+                        </ul> -->
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-3 col-md-6 mb-4">
+                <div class="card p-0 rounded-3">
+                    <img src="{% static 'images/team/team3.png'%}" class="img-fluid rounded-3" />
+                    <div class="team-info">
+                        <h5>Ferbán</h5>
+                        <p>Especialista comercial</p>
+                        <!-- <ul class="social-network">
+                            <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
+                            <li><a href="#"><i class="fab fa-twitter"></i></a></li>
+                            <li><a href="#"><i class="fab fa-google-plus-g"></i></a></li>
+                            <li><a href="#"><i class="fab fa-vimeo-v"></i></a></li>
+                        </ul> -->
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-4">
+                <div class="card p-0 rounded-3">
+                    <img src="{% static 'images/team/team4.png'%}" class="img-fluid rounded-3" />
+                    <div class="team-info">
+                        <h5>Reinaldo Pajón</h5>
+                        <p>Guía chofer</p>
+                        <!-- <ul class="social-network">
+                            <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
+                            <li><a href="#"><i class="fab fa-twitter"></i></a></li>
+                            <li><a href="#"><i class="fab fa-google-plus-g"></i></a></li>
+                            <li><a href="#"><i class="fab fa-vimeo-v"></i></a></li>
+                        </ul> -->
+                    </div>
+                </div>
+            </div>
+            
+            
+        </div>
+    </div>
+</section>
+<!-- Team Section Exit  -->
+
+<!-- Gallery section -->
+<section id="gallery" class="gallery_wrapper">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12 section-title text-center mb-5">
+                <h3><div class="respuestas"><span class="tenemos">Nuestra</span> galería</div></h3>
+            </div>
+        </div>
+        <div class="row g-0">
+            <div class="col-lg-3 col-md-6 gallery-item">
+                <img src="{% static 'images/gallery/1.png'%}" class="img-fluid w-100">
+                <div class="gallery-item-content"></div>
+            </div>
+            <div class="col-lg-3 col-md-6 gallery-item">
+                <img src="{% static 'images/gallery/2.png'%}" class="img-fluid w-100">
+                <div class="gallery-item-content"></div>
+            </div>
+            <div class="col-lg-3 col-md-6 gallery-item">
+                <img src="{% static 'images/gallery/3.png'%}" class="img-fluid w-100">
+                <div class="gallery-item-content"></div>
+            </div>
+            <div class="col-lg-3 col-md-6 gallery-item">
+                <img src="{% static 'images/gallery/4.png'%}" class="img-fluid w-100">
+                <div class="gallery-item-content"></div>
+            </div>
+            <div class="col-md-6 gallery-item">
+                <img src="{% static 'images/gallery/5.png'%}" class="img-fluid w-100">
+                <div class="gallery-item-content"> </div>
+            </div>
+            <div class="col-md-6 gallery-item">
+                <img src="{% static 'images/gallery/6.png'%}" class="img-fluid w-100"> 
+                <div class="gallery-item-content"> </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

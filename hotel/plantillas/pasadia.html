@@ -1,0 +1,118 @@
+Hola{% extends 'base.html' %} 
+{% load static %}
+
+
+{% block contenido %}
+
+{% if messages %}
+
+    {% for message in messages%}
+        <script>
+            swal( '{{message}}' )
+        </script>
+    {% endfor%}
+
+{% endif %} 
+
+<section class="text-center">
+    <div class="container-md text-center text-dark border rounded-0">
+        
+        
+        <div class="row">
+            <div class="col">
+                <h2 class="border rounded-0 tenemos">Pasadia <span class="respuestas">{{pasadia.nombre}}</span></h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <h4 class="border rounded-0 tenemos ">Plan de alimentacion: <span class="respuestas">{{pasadia.plan}}</span> </h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <h4 class="border rounded-0 tenemos">Fecha: <span class="respuestas">{{pasadia.fecha}}</span></h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div>
+                    <h4 class="border rounded-0 tenemos">Adulto</h4>
+                </div>
+                <div>
+                    <h4 class="border rounded-0 respuestas">${{pasadia.precio_adulto}} CUP</h4>
+                </div>
+            </div>
+            <div class="col">
+                <div>
+                    <h4 class="border rounded-0 tenemos">Niño</h4>
+                </div>
+                <div>
+                    <h4 class="border rounded-0 respuestas">${{pasadia.precio_ninno}} CUP</h4>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <h4 class="border rounded-0 tenemos ">Capacidad máxima: <span class="respuestas">{{pasadia.total_de_personas}}</span> </h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <h4 class="border rounded-0 tenemos ">Capasidad disponible: <span class="respuestas">{{pasadia.Faltan}}</span> </h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <h4 class="border rounded-0 tenemos">Descripción</h4>
+                <h5 class="border rounded-0 text-center respuestas">{{pasadia.descripcion}}</h5>
+            </div>
+        </div>
+        
+        
+    </div>
+</section>
+
+{% for p in pas%}
+            
+            {% if p.Faltan > 0 %}
+            <section>
+                <div class="container booking-area ">
+                    <form method="post" class="form ">
+                        <div class="cant">
+                            {{ form.nombre_solicitante}}
+                        </div>
+                        <div class="cant">
+                            {{ form.apellido1_solicitante}}
+                        </div>
+                        <div class="cant">
+                            {{ form.apellido2_solicitante}}
+                        </div>
+                        <div class="cant">
+                            {{ form.carnet}}
+                        </div>
+                        <div class="cant">
+                            {{ form.email}}
+                        </div>
+                        <div class="cant">
+                            {{ form.telefono}}
+                        </div>
+                        <div class="cant">
+                            {{ form.adultos}}
+                        </div>
+                        <div class="cant">
+                            {{ form.ninnos}}
+                        </div>
+                        <div class="cant">
+                            {{form.pasadia}}
+                        </div>
+             
+                        <br>
+                        <input class="main-btn rounded-2 px-lg-3 text-orange" type="submit" value="Reservar">   
+                        
+                        {% csrf_token %}  
+                    </form> 
+                </div>
+            </section>
+            {% endif %}
+            {% endfor %}
+{% endblock %}

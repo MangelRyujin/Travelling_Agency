@@ -1,0 +1,173 @@
+
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}ECOTUR Cienfuegos {% endblock %} </title>
+
+    <!-- FAVICON -->
+    {% load static %}
+    <link rel="icon" type="image/png" href="{% static 'images/favicon.png' %}">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'fontawesome-5.15.4/css/all.min.css' %}">
+    <link rel="stylesheet" href="{% static 'swiper/swiper-bundle.min.css' %}">
+    <link rel="stylesheet" href=" {% static 'css/style.css' %}">
+    <!-- <link rel="stylesheet" href=" {% static 'css/responsive-style.css' %}"> -->
+    <script src="{% static 'js/sweetalert.min.js' %}"></script>
+    <!-- Bootstrap 5 CDN Links -->
+   
+
+    <!-- Link Swiper's CSS -->   
+</head>
+{% block body %}
+<body data-bs-spy="scroll" data-bs-target=".navbar" data-bs-offset="100">
+    <!-- Navbar section -->
+    <header class="header_wrapper">
+        <nav class="navbar navbar-expand-lg">
+            <div class="container-fluid px-5">
+                <a class="navbar-brand" href="{% url 'hotel:index' %}">
+                    <img src="{% static 'images/logo.png' %}" class="img-fluid" width= "50%" alt="logo">
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <i class="fas fa-stream navbar-toggler-icon"></i>
+                </button>
+
+                <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                    <ul class="navbar-nav menu-navbar-nav ">
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.path == '/'%} active {% endif %} " aria-current="page" href="{% url 'hotel:index' %}">Inicio</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.path == '/' %} active {% endif %}" href="#hoteles">Hoteles</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.path == '/' %} active {% endif %}" href="#catalogo">Catálogo</a>
+                        </li>
+                        <li class="nav-item ">
+                            <a class="nav-link {% if request.path == '/' %} active {% endif %}" href="#about">Nosotros</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.path == '/' %} active {% endif %}" href="#preguntas">Preguntas</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.path == '/' %} active {% endif %}" href="#services">Servicios</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.path == '/' %} active {% endif %}" href="#team">Personal</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.path == '/' %} active {% endif %}" href="#gallery">Galería</a>
+                        </li>
+                        
+                        <li class="nav-item  ">
+                            <a class="nav-link {% if request.path == '/contactar/' %} active {% endif %}" href="{% url 'contactar' %}" >Contactar</a>
+                        </li>
+                        <li class="nav-item mt-3 mt-lg-0">
+                            <a class="main-btn " href="{% url 'detalles'%}">Reserva</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <!-- Navbar section exit -->
+
+    <!-- Banner section -->
+	<h1><div><span>vendemos</span> aventuras</div></h1>
+    
+
+    <section id="home" class="banner_wrapper p-0">
+        <div class="swiper mySwiper">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide " style="background-image: url({% static 'images/slider/slider1.png'%})">
+                  <!--  <div class="slide-caption text-center">
+                        <div>
+                            <h1>vendemos aventuras</h1>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
+                                incididunt ut labore et dolore magna aliqua. Ut enim </p>
+                        </div>
+                    </div> -->
+                </div>
+				<div class="swiper-slide " style="background-image: url({% static 'images/slider/mapa-ecotur.png'%})">
+                    <!-- <div class="slide-caption text-center">
+                        <div>
+                            <h1>vendemos aventuras</h1>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
+                                incididunt ut labore et dolore magna aliqua. Ut enim </p>
+                        </div>
+                    </div> -->
+                </div>
+            </div>
+            <div class="swiper-pagination"></div>
+        </div>
+    </section>
+        
+        
+    <!-- Banner section exit -->
+  
+
+    {% block contenido%}
+    {% endblock %}
+
+    
+    
+
+    <!-- Footer section -->
+    <section id="contact" class="footer_wrapper mt-3 mt-md-0 pb-0">
+        <div class="container pb-3">
+            <div class="row">
+                <div class="col-lg-5 col-md-6">
+                    <h3><div class="respuestas"><span class="tenemos">¿Cómo</span> contactarnos?</div></h3>
+                    <p class="ps-0">Puede contactarnos por las vias sugeridas a continuación o puede enviarnos directamente su duda por medio de la opción contactar ubicada en la barra de navegación.</p>
+                    <div class="contact-info">
+                        <ul class="list-unstyled">
+                            <li><a href="#"><i class="fa fa-home tenemos me-3"></i> Calle 37, e/ Ave 48 y 50, S/N.</a></li>
+                            <li><a href="#"><i class="fa fa-phone tenemos me-3"></i>+53 43111111</a></li>
+                            <li><a href="#"><i class="fa fa-envelope tenemos me-3"></i>info@example.com</a></li>
+                        </ul>
+                    </div>
+                </div>
+                
+                
+                <div class="col-lg-7 col-md-6 text-center">
+                    <h3><div class="respuestas"><span class="tenemos">¿Otras</span> plataformas que usamos?</div></h3>
+                    <ul class=" row social-network d-flex  text-center">
+                        <li class="col"><a href="#"><i class="fab  fa-facebook-f"></i></a></li>
+                        <li class="col"><a href="#"><i class="fab   fa-twitter"></i></a></li>
+                        <li class="col"><a href="#"><i class="fab   fa-google-plus-g"></i></a></li>
+                        <li class="col"><a href="#"><i class="fab   fa-vimeo-v"></i></a></li>
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+    </section>
+    <!-- Footer section exit -->
+
+    <!-- Bootstrap 5 JS CDN Links -->
+    <script src="{% static 'popper/popper.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <!-- Swiper JS -->
+    <script src="{% static 'swiper/swiper-bundle.min.js' %}"></script>
+
+    <!-- Custom Js Link -->
+    <script src="{% static 'js/main.js' %}"></script>
+</body>
+{% endblock %}
+
+    
+
+    
+
+    
+    
+
+    <!-- Footer section -->
+    
+
+</html>
+

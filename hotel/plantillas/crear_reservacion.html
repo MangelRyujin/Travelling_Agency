@@ -1,0 +1,88 @@
+{% extends 'base.html' %} 
+{% load static %}
+
+
+{% block contenido %}
+<section>   
+    <div class="container-fluid text-start booking-area">
+        <h1><div><span>Su</span> Reservación</div></h1>  
+    
+            {% for item in carro %}
+                {% with total_items=carro|length %} 
+                {% if total_items > 0 %}
+                <h3 > <div class="respuestas" ><span class="tenemos" > Reservó</span> {{ item.cantidad_habitaciones}} <span class="tenemos"> {% if item.cantidad_habitaciones < 2 %}habitación {% else %} habitaciones {% endif %} para <span class="respuestas">{{ item.total }}</span>  persona{{ total_items|pluralize }} en la oferta <span class="respuestas">{{ item.oferta }}</span> con un monto total de: </span>${{ item.precio }} CUP<span class="tenemos">  por noche</span> </div></h3>
+                {% endif %}
+                {% endwith %} 
+            {% endfor %} 
+
+            {% with total_items=carro|length %} 
+                {% if total_items > 0 %}
+                    <h3 > <div class="respuestas" ><span class="tenemos" > Su reservación contiene</span> {{ total_items }}<span class="tenemos"> persona{{ total_items|pluralize }} con un monto total de: </span>${{ carro.get_total_precio }} CUP <span class="tenemos"> por noche</span></div></h3>
+            
+                {% elif not reservacion %}
+                    <h3 class="text-dark text-center">No contienes ofertas</h3>
+                {% endif %}
+            {% endwith %}
+            {% if carro.get_min_reservar > 0%}
+            
+            <h3 > <div class="respuestas" ><span class="tenemos" > Tiene que reservar mínimo </span> {{ carro.get_min_reservar }} <span class="tenemos"> noches</span></div></h3>
+            {% endif %}
+        </div>
+    {% for message in messages%}
+        <script>
+            swal( '{{message}}' )
+        </script>
+    {% endfor%}
+
+</section>
+
+<section>
+    <div class="container booking-area ">
+        <form method="post" class="form ">
+            <div class="cant">
+                {{ form.nombre_solicitante}}
+            </div>
+            <div class="cant">
+                {{ form.apellido1_solicitante}}
+            </div>
+            <div class="cant">
+                {{ form.apellido2_solicitante}}
+            </div>
+            <div class="cant">
+                {{ form.carnet}}
+            </div>
+            <div class="cant">
+                {{ form.email}}
+            </div>
+            <div class="cant">
+                {{ form.telefono}}
+            </div>
+            <div class="cant">
+                <label>Fecha inicial</label>{{ form.fecha_inicial}}
+            </div>
+            <div class="cant">
+                <label>Fecha final</label>{{ form.fecha_final}}
+
+            </div>
+            {% if transporte %}
+                
+                    <div class="cant">
+                        {{ form.transporte}}<label>Transporte</label>
+                    </div>
+                    
+            {% endif %}
+            
+             <br>
+            
+            <input class="main-btn rounded-2 px-lg-3 text-orange" type="submit" value="Reservar">   
+            
+            {% csrf_token %}  
+        </form> 
+    </div>
+</section>
+
+
+
+
+
+{% endblock %}

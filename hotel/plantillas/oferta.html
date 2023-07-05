@@ -1,0 +1,121 @@
+{% extends 'base.html' %} 
+{% load static %}
+
+
+{% block contenido %}
+
+{% if messages %}
+
+    {% for message in messages%}
+        <script>
+            swal( '{{message}}' )
+        </script>
+    {% endfor%}
+
+{% endif %} 
+
+<section class="text-center">
+    <div class="container-md text-center text-dark border rounded-0">
+        
+        
+        <div class="row">
+            <div class="col">
+                <h2 class="border rounded-0 tenemos">Oferta <span class="respuestas">{{oferta.nombre}}</span></h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <h4 class="border rounded-0 tenemos ">Plan de alimentacion: <span class="respuestas">{{oferta.plan}}</span> </h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <h4 class="border rounded-0 tenemos">Fecha válida</h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <h4 class="tenemos"> Inicial</h4>
+                <div>
+                    <h4 class="border rounded-0 respuestas">{{oferta.fecha_inicial_reserva}}</h4>
+                </div>
+            </div>
+            <div class="col">
+                
+                <h4 class="tenemos">Final</h4>
+                <div>
+                    <h4 class="border rounded-0 respuestas">{{oferta.fecha_final_reserva}}</h4>
+                </div>
+            </div>
+        </div>
+        {% if oferta.dias_min > 0 %}
+        <div class="row">
+            <div class="col">
+                <h3 class="tenemos">Cantidad de dias minimos a reservar: <span class="respuestas">{{oferta.dias_min}}</span></h3>
+            </div>
+        </div>
+        {% endif %}
+        <div class="row">
+            <div class="col">
+                <h3 class="tenemos">Habitación <span class="respuestas">{{oferta.tipo_habitacion}}</span></h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div>
+                    <h4 class="border rounded-0 tenemos">Adulto</h4>
+                </div>
+                <div>
+                    <h4 class="border rounded-0 respuestas">${{oferta.precio_adulto}}</h4>
+                </div>
+            </div>
+            <div class="col">
+                <div>
+                    <h4 class="border rounded-0 tenemos">Niño</h4>
+                </div>
+                <div>
+                    <h4 class="border rounded-0 respuestas">${{oferta.precio_primer_ninno}}</h4>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div>
+                    <h4 class="border rounded-0 tenemos">Suplemento de fin de semana</h4>
+                </div>
+                <div>
+                    <h4 class="border rounded-0 respuestas">${{oferta.suplemento}}</h4>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <h5 class="border rounded-0 tenemos">Descripción</h5>
+                <h5 class="border rounded-0 text-center respuestas">{{oferta.descripcion}}</h5>
+            </div>
+        </div>
+        
+        
+    </div>
+</section>
+
+<section>
+    <div class="container booking-area">
+        <form class="row" method="post" action="{% url 'carrito' oferta.id %}">
+            <div class="row">
+                <div class="col-lg-7 mb-3 mb-lg-0">
+                    {%csrf_token%}
+                    <!-- {{form.adultos}}
+                    {{form.ninnos}} -->
+                    {{form.as_p}}
+                    <div class="col-lg-4 mb-3 mb-lg-0">
+                        <button type="submit" class="main-btn rounded-2 px-lg-3 text-orange">Agregar a Reservación</button>
+                    </div>
+                    
+
+                </div>
+            </div>
+        </form>
+    </div>
+</section>
+{% endblock %}

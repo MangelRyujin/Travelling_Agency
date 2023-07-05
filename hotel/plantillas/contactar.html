@@ -1,0 +1,73 @@
+{% extends 'base.html' %} 
+
+{% block contenido %}
+
+
+<section>
+    <h1><div><span>Tiene</span> preguntas?</div></h1>
+    <h4 class="text-center"><div class="respuestas"><span class="tenemos">tenemos</span> respuestas!</div></h4>
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <div class="fs-4 text-start text-dark float-start d-xl-flex justify-content-xl-center align-items-xl-center">
+                <p>Llene los campos requeridos para darnos a conocer de lo que quiere informarse o contactenos directamente por teléfono, email o llendo directamente a la empresa</p>
+            </div>
+        </div>
+    </div>
+    {% if messages %}
+
+    {% for message in messages%}
+        <script>
+            swal( '{{message}}' )
+        </script>
+    {% endfor%}
+
+{% endif %}
+    
+
+    <div class="row">
+        <div class="col-md-7 col-lg-7 auto">
+            <form  method="post"  action="">
+                {% csrf_token %}
+                
+                <div class="control-group">
+                    <div class="form-floating controls mb-3">{{form.nombre}}<label class="form-label label_orange" for="Nombre">Nombre</label></div>
+                </div>
+                <div class="control-group">
+                    <div class="form-floating controls mb-3">{{form.email}}<label class="form-label label_orange" for="Email">Dirección Email</label><small class="form-text text-danger help-block"></small></div>
+                </div>
+                
+                <div class="control-group">
+                    <div class="form-floating controls mb-3">{{form.mensaje}}<label class="form-label label_orange">Mensaje</label><small class="form-text text-danger help-block"></small></div>
+                </div>
+                
+                <button class="main-btn border-white text-white mt-lg-5" type="submit">  Enviar</button>
+                
+            </form>
+        </div>
+        <div class="col-md-5 col-lg-5">
+                <div class="d-flex align-items-center p-3">
+                    <div class="contact-info">
+                        <div class="col-lg-12 col-md-6">
+                            <div class="contact-info">
+                                <ul class="list-unstyled">
+                                    <li class="cant"><h5  class="respuestas"><i class="fa fa-home tenemos me-3"></i> Calle 37, e/ Ave 48 y 50, S/N.</h5></li>
+                                    <li class="cant"><h5  class="respuestas"><i class="fa fa-phone tenemos me-3"></i>+53 43111111</h5></li>
+                                    <li class="cant"><h5 class="respuestas"><i class="fa fa-envelope tenemos me-3"></i>info@example.com</h5></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- <ul class="list-unstyled">
+                            <li class="row margen_contact"><p><i class="fa fa-home me-3"></i> Calle 37, e/ Ave 48 y 50, S/N.</p></li>
+                            <li class="row margen_contact"><p><i class="fa fa-phone me-3"></i>+53 43111111</p></li>
+                            <li class="row margen_contact"><p ><i class="fa fa-envelope me-3"></i>info@example.com</p></li>
+                        </ul> -->
+                        
+                    </div>
+                </div>
+        </div>
+    </div>
+</div>
+</section>
+    
+{% endblock %}

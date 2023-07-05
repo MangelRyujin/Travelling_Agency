@@ -1,0 +1,101 @@
+{% extends 'base.html' %} 
+{% load static %}
+
+
+{% block contenido %}
+
+<section id="about" class="about_wrapper">
+    <div class="container">
+        <div class="row flex-lg-row flex-column-reverse ">
+            <div class="col  text-lg-start">
+                {% if hotel %}
+                    {% for hoteles in hotel%}
+                        <h1><div><span>Hotel </span>{{hoteles.nombre}}</div></h1>      
+                        <p>Bienvenido al Hotel {{hoteles.nombre}} perteneciente a la cadena hotelera {{hoteles.cadena}} ubicado en la provincia de {{hoteles.ubicacion}}, en el cual tenemos preparadas un grupo de ofertas que le serán de interés
+                            a la hora de realizar su reservación.
+                        <p>
+                        <p>{{hoteles.descripcion}}.</p>
+                        <p>Si desea buscar mas información puede tocar la opción de explorar que le mostramos a continuación <a href="{{hoteles.url}}">{{hoteles.url}}</a></p>
+                        
+                    {% endfor %}
+                {% endif %}
+                <br>
+                
+                
+                
+
+            </div>
+        </div>
+    </div>
+</section>
+<section id="rooms" class="rooms_wrapper">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-12 section-title text-center mb-5">
+                
+                {% if oferta %}
+                    
+                <h3><div class="respuestas"><span class="tenemos">Ofertas</span> vigentes</div></h3>
+                    
+                    
+                {% else %}
+                <h3><div class="respuestas"><span class="tenemos">No hay</span> ofertas</div></h3>
+                    
+                {% endif %}
+            </div>
+        </div>
+        <div class="row ">
+        {% if oferta %}
+            {% for oferta in page_obj %}
+                <div class="col-md-4 mb-4 mb-lg-0" id="">
+                    <div class="room-item">
+                        {% if oferta.imagen %}
+                        <img src="{{ oferta.imagen.url }}" class="img-fluid">
+                        {% endif %}
+                        <div class="room-item-wrap">
+                            <div class="room-content">
+                                <h5 class="row text-white mb-lg-5 text-decoration-underline">{{oferta.nombre}}</h5>
+                                <p class=" row text-white fw-bold mt-lg-2">${{oferta.precio_adulto}} / Adulto Por Noche</p>
+                                <p class=" row text-white fw-bold mt-lg-2">${{oferta.precio_primer_ninno}} / Niño Por Noche</p>
+                                {% if oferta.suplemento > 0 %}
+                                    <p class=" row text-white fw-bold mt-lg-2">${{oferta.suplemento}} / Extra por Noche si es fin de semana</p>       
+                                {% else %}
+                                    <p class=" row text-white fw-bold mt-lg-2">La oferta no contiene suplemento de fin de semana</p> 
+                                {% endif %}
+                                <a type="button" class="main-btn border-white text-center  text-white mt-lg-5" href="{% url 'oferta' oferta.id %}">Ver detalles</a>
+                            </div>
+                        </div> 
+                    </div> 
+                </div>
+                {% endfor %}
+        {% endif %}
+            
+            
+        </div>
+        {% if page_obj.paginator.num_pages > 1 %}
+        <div class="font-monospace fs-1 text-center border-4 d-xl-flex justify-content-xl-center align-items-xl-center" style="padding-bottom: 0px;padding-top: 26px;">
+            <nav class="text-center d-flex d-sm-flex justify-content-center justify-content-sm-center">
+                <ul class="pagination pagination-sm">
+                    <li class="page-item "><a class="page-link pag"  href="?page=1"><span>Inicial</span></a></li>
+                    {% if page_obj.has_previous and page_obj.previous_page_number != 1 %}
+                    <li class="page-item"><a class="page-link pag" href="?page={{ page_obj.previous_page_number}}">{{page_obj.previous_page_number}}</a></li>
+                    {% endif %}
+                    {% if page_obj.previous_page_number >= 1 and page_obj.next_page_number <= 6 %}
+                    <li class="page-item active"><a class="page-link" href="#">{{ page_obj.number }}</a></li>
+                    {% endif %}
+                    {% if page_obj.has_next and page_obj.next_page_number != page_obj.paginator.num_pages %}
+                    <li class="page-item"><a class="page-link pag" href="?page={{ page_obj.next_page_number }}">{{ page_obj.next_page_number}}</a></li>
+                    {% endif %}
+                    <li class="page-item"><a class="page-link pag"  href="?page={{ page_obj.paginator.num_pages }}"><span >Final</span></a></li>
+                </ul>
+            </nav>
+        </div>
+        
+        {% endif %}
+    </div>
+</section>
+
+
+
+
+{% endblock %}
